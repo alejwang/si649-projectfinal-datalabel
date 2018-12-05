@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Analyst</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+<body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script type="text/javascript" src="js/draw.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+  <div class="left_column">
+    <div class="tab"><a href="#overview">Data Overview</a></div>
+    <div class="tab"><a href="#correlation">Correlations</a></div>
+    <div class="tab"><a href="#fds">Functional Dependences</a></div>
+    <div class="tab"><a href="#mups">Uncovered Patterns</a></div>
+    <div class="tab"><a href="#ars">Association Rules<br></br></a></div>
+    <div class="tab"><img src="img/filter.png" style="width:70%"></a></div>
+  </div>
+
+  <div class="right_column">
+    <div id="overview">
+      <h1><strong>Data Overview</strong></h1>
+      <p>Here you can see all the columns in the dataset, and you can select
+        columns you need to see more analysis about them</p>
+      <div class="frame">
+        <div><img src="img/histogram-01.jpg"></div>
+      </div>
+    </div>
+    <div id="correlation" class="vis">
+      <h1><strong>Correlations</strong></h1>
+      <p>Here you can see all the columns in the dataset, and you can select
+        columns you need to see more analysis about them</p>
+      <div class="frame">
+        <div id="diagramCorrelations"> </div>
+        <div id="diagramScatterPlot"> </div>
+      </div>
+    </div>
+    <div id="fds" class="vis">
+      <h1><strong>Functional Dependences</strong></h1>
+      <p>Here you can see all the columns in the dataset, and you can select
+        columns you need to see more analysis about them</p>
+      <div id="fds_vis" class="frame">
+      </div>
+    </div>
+    <div id="mups" class="vis">
+      <h1><strong>Uncovered Patterns</strong></h1>
+      <p>Here you can see all the columns in the dataset, and you can select
+        columns you need to see more analysis about them</p>
+      <div id="mups_vis" class="frame">
+      </div>
+    </div>
+    <div id="ars" class="vis">
+      <h1><strong>Association Rules</strong></h1>
+      <p>Here you can see all the columns in the dataset, and you can select
+        columns you need to see more analysis about them</p>
+      <div id="ars_vis" class="frame">
+      </div>
+    </div>
+  </div>
+</body>

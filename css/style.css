@@ -1,18 +1,7 @@
+
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 
-body, text {
-    background: #f7f7f7;
-    font-family: 'Montserrat', sans-serif, 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
-    color: #333;
-}
 
-
-h1{
-    color:#404040;
-    font-size:36px;
-    /* text-align: center; */
-    font-weight: bold;
-}
 
 h3{
     color:#404040;
@@ -159,4 +148,73 @@ h6 {
 
 .highlight{
     fill: #404040 !important;
+}
+
+
+html {
+  font-family: Helvetica;
+}
+
+h1{
+  font-size: 48px;
+}
+
+p{
+  font-size: 20px;
+  line-height: 30px;
+}
+
+a{
+  font-size:16px;
+  text-decoration: underline;
+  color: black;
+  line-height: 32px;
+}
+
+.main_box{
+  width: 60%;
+  margin:0 auto;
+}
+
+.myFile {
+    visibility: hidden;
+    position: absolute;
+}
+
+.myBtn{
+  background-color:black;
+  color: white;
+  padding: 10px 20px;
+  text-align:center;
+  font-size: 20px;
+}
+
+.hide {
+	display: none
+}
+
+
+.left_column{
+  height:100%;
+  width: 20%;
+  margin-left: 5%;
+  padding:50px 20px;
+  display:inline;
+  float: left;
+  position:fixed;
+  overflow: scroll;
+}
+
+.right_column{
+  width: 65%;
+  margin-left: 25%;
+  margin-right: 5%;
+  padding:20px;
+  display: inline;
+  float: left;
+}
+
+.frame{
+  width:100%;
+  border: black solid 3px;
 }
