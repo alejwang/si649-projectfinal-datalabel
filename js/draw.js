@@ -114,6 +114,7 @@ function init(analysisResult){
     .attr("checked","checked")
 
 
+
     var lst_of_values = [];
     rawData.forEach(function(v) {
       lst_of_values.push(v[colname]);
@@ -140,6 +141,23 @@ function init(analysisResult){
       $(v.slice(0, v.length - 7)).toggle();
     })
   }); // rebuild by z @ 12.12
+
+
+// should calculate the min and max
+  };
+
+  var columnNamesToggle = ['#nominal_change', '#ordinal_change', '#quantitative_change'];
+  columnNamesToggle.forEach(function(v) {
+    $(v).click(function() {
+      if ($(v).innerHTML=="+") {
+        $(v).innerHTML="-";
+      } else {
+        $(v).innerHTML="+";
+      }
+      $(v.slice(0, v.length - 7)).toggle();
+    })
+  }); // rebuild by z @ 12.12
+
 
 
 }
