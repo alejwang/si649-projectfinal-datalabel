@@ -261,6 +261,10 @@ label.column_name{
   float:right;
 }
 
+.vis{
+  padding-bottom:50px;
+}
+
 .tab{
   color: black;
   text-decoration: underline;
