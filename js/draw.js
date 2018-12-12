@@ -73,7 +73,7 @@ function drawDiagramCorrelations(init = false) {
     // nodes[source].count += 1;
     // nodes[target].count += 1;
   });
-  console.log(nodeNameToId);
+  // console.log(correlationMatrix);
 
   var svg = d3.select("#diagramCorrelations").append("svg")
       .attr("width", width + margin.left + margin.right)
