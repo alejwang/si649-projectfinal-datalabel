@@ -86,6 +86,7 @@ function init(analysisResult){
   lst3.forEach(function(v){
     var colname = rawColumns[v];
     var colname_div=div3.append("div")
+    .attr("id",v+"_checkbox")
     colname_div.append("label")
     .attr("for",colname)
     .text(colname)
@@ -97,7 +98,21 @@ function init(analysisResult){
     .attr("class","column_checkbox")
     .attr("checked","checked")
 
-// should calculate the min and max
+
+
+    var lst_of_values = [];
+    rawData.forEach(function(v) {
+      lst_of_values.push(v[colname]);
+    });
+    //console.log(lst_of_values);
+    var max=Math.max.apply(null,lst_of_values);
+    var min=Math.min.apply(null,lst_of_values);
+    console.log(max,min);
+
+
+
+
+
   });
 
   var columnNamesToggle = ['#nominal_change', '#ordinal_change', '#quantitative_change'];
@@ -113,7 +128,24 @@ function init(analysisResult){
   }); // rebuild by z @ 12.12
 
 
-}
+// should calculate the min and max
+  };
+
+  var columnNamesToggle = ['#nominal_change', '#ordinal_change', '#quantitative_change'];
+  columnNamesToggle.forEach(function(v) {
+    $(v).click(function() {
+      if ($(v).innerHTML=="+") {
+        $(v).innerHTML="-";
+      } else {
+        $(v).innerHTML="+";
+      }
+      $(v.slice(0, v.length - 7)).toggle();
+    })
+  }); // rebuild by z @ 12.12
+
+
+
+
 
 ///////////////// by Zhen /////////////////
 

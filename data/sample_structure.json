@@ -182,13 +182,16 @@
     "Sex",
     "Race",
     "c_charge_degree",
-    "marriage_status"
+    "MarriageStatus"
   ],
   "ordinal": [
     "Age",
     "DateOfBirth"
   ],
   "quantitative": [
+
+    "Recidivism_score"
+
     "juv_fel_count",
     "decile_score",
     "juv_misd_count",
@@ -207,6 +210,7 @@
     "two_year_recid",
     "violence_score",
     "recidivism_score"
+
   ]
 
 }
