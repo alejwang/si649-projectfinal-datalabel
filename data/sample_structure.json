@@ -182,7 +182,7 @@
     "Sex",
     "Race",
     "c_charge_degree",
-    "marriage_status"
+    "MarriageStatus"
   ],
   "ordinal": [
     "Age",
@@ -190,7 +190,7 @@
 
   ],
   "quantitative": [
-    "recidivism_score"
+    "Recidivism_score"
   ]
 
 }

@@ -96,6 +96,7 @@ function init(analysisResult){
     //console.log(v);
     var colname = v;
     var colname_div=div3.append("div")
+    .attr("id",v+"_checkbox")
     colname_div.append("label")
     .attr("for",v)
     .text(v)
@@ -113,7 +114,11 @@ function init(analysisResult){
       lst_of_values.push(v[colname]);
     });
     //console.log(lst_of_values);
-    dict_of_value = {};
+    var max=Math.max.apply(null,lst_of_values);
+    var min=Math.min.apply(null,lst_of_values);
+    console.log(max,min);
+  
+
 
 
 

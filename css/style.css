@@ -248,10 +248,11 @@ a{
   text-decoration: underline;
 }
 
-.column_name{
+label.column_name{
   font-size: 14px;
   text-align: left;
   line-height: 24px;
+  font-weight: normal;
 }
 
 .column_checkbox{
