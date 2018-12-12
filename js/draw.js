@@ -22,8 +22,8 @@ function loadRawData() {
     rawDataFiltered = d;
     rawColumns = Object.keys(rawData[1]);
     rawColumnFiltered = Object.keys(rawData[1]);
-    console.log('rawData', rawData);
-    console.log('rawColumns', rawColumns);
+    // console.log('rawData', rawData);
+    // console.log('rawColumns', rawColumns);
     loadAnalysisResult();
   });
 }
@@ -42,10 +42,10 @@ function loadAnalysisResult() {
 function init(){
   categoryOfColumns = {
     'nominal': [0, 1, 2, 3, 6, 14, 25],
-    'ordinal': [4, 5, 12],
-    'quantitative': [7, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    'ordinal': [4, 12],
+    'quantitative': [5, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   } // manually
-  console.log('init');
+  // console.log('init');
   var div1 = d3.select("#nominal");
   var lst1 = categoryOfColumns.nominal;
   lst1.forEach(function(v){
@@ -129,16 +129,16 @@ function init(){
 function drawAll(initzer = false) {
   drawDiagramCorrelations(initzer);
   drawDiagramFunctionalDep(initzer);
-  console.log('drawAll');
+  // console.log('drawAll');
 }
 
 function drawDiagramCorrelations(init = false) {
   // https://bost.ocks.org/mike/miserables/
 
   // Init correlations visualization
-  var margin = {top: 80, right: 0, bottom: 10, left: 80},
-      width = 600,
-      height = 600;
+  var margin = {top: 80, right: 0, bottom: 0, left: 80},
+      width = 600 - margin.left - margin.right,
+      height = 600 - margin.top - margin.bottom;
 
   var correlationMatrix = [],
       nodes = [],
@@ -174,7 +174,7 @@ function drawDiagramCorrelations(init = false) {
       correlationMatrix[target][source].z = value;
     });
   });
-  console.log(correlationMatrix);
+  // console.log(correlationMatrix);
 
 
   // Convert links to correlationMatrix; count character occurrences.
@@ -188,13 +188,17 @@ function drawDiagramCorrelations(init = false) {
   //   correlationMatrix[target][source].z = value;
   // }); Old version
 
-
-  var svg = d3.select("#diagramCorrelations").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", "20px")
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  if (init) {
+    var svg = d3.select("#diagramCorrelations").append("svg")
+        .attr("id", "diagramCorrelationsSvg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        // .style("margin-left", "20px")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  } else {
+    var svg = d3.select("#diagramCorrelationsSvg")
+  }
 
   var x = d3.scaleBand()
             .domain(nodes.map(function (d) { return d.name; }))
@@ -219,25 +223,6 @@ function drawDiagramCorrelations(init = false) {
       .attr("height", height)
       .attr("fill", "#f9f9f9");
 
-  var row = svg.selectAll(".row")
-      .data(correlationMatrix)
-      .enter().append("g")
-      .attr("class", "row")
-      .attr("transform", function(d, i) { return "translate(0," + x(nodes[i].name) + ")"; })
-      .each(drawRow);
-
-  row.append("line")
-      .attr("x2", width)
-      .attr("stroke", "#fff");
-
-  row.append("text")
-      .attr("x", -6)
-      .attr("y", x.bandwidth() / 2)
-      .attr("dy", ".32em")
-      .attr("text-anchor", "end")
-      .attr("class", "correlationsColumnNames")
-      .text(function(d, i) { return nodes[i].name; });
-
   var column = svg.selectAll(".column")
       .data(correlationMatrix)
     .enter().append("g")
@@ -256,13 +241,37 @@ function drawDiagramCorrelations(init = false) {
       .attr("class", "correlationsColumnNames")
       .text(function(d, i) { return nodes[i].name; });
 
+
+  var row = svg.selectAll(".row")
+      .data(correlationMatrix)
+      .enter().append("g")
+      .attr("class", "row")
+      .attr("transform", function(d, i) { return "translate(0," + x(nodes[i].name) + ")"; });
+
+
+  row.append("line")
+      .attr("x2", width)
+      .attr("stroke", "#fff");
+
+  row.each(drawRow);
+
+  row.append("text")
+      .attr("x", -6)
+      .attr("y", x.bandwidth() / 2)
+      .attr("dy", ".32em")
+      .attr("text-anchor", "end")
+      .attr("class", "correlationsColumnNames")
+      .text(function(d, i) { return nodes[i].name; });
+
+
   function drawRow(row) {
-    console.log('row', row);
+    // console.log('row', row);
     var cell = d3.select(this).selectAll(".cell")
         .data(row.filter(function(d) { return true; }))
         .enter().append("rect")
+        .attr("id", function(d) { return "block-"+d.x+"-"+d.y; })
         .attr("class", "cell")
-        .attr("x", function(d) { console.log(x, d.x, nodes[d.x]); return x(nodes[d.x].name); })
+        .attr("x", function(d) { return x(nodes[d.x].name); })
         .attr("width", x.bandwidth())
         .attr("height", x.bandwidth())
         .style("fill-opacity", function(d) { return (d.z); })
@@ -271,21 +280,30 @@ function drawDiagramCorrelations(init = false) {
         // .on("mouseover", mouseover)
         // .on("mouseout", mouseout);
   }
-
+  if (init) { drawScatterPlot(0,12); };
 
 }
 
 
 var initDrawScatterPlot = true;
-function drawScatterPlot(columnX, columnY) {
-  var xName = rawColumns[categoryOfColumns.quantitative[columnX]];
-  var yName = rawColumns[categoryOfColumns.quantitative[columnY]];
+var currentFocusX = 0,
+    currentFocusY = 12;
+function drawScatterPlot(quanColumnX, quanColumnY) {
+  d3.select("#block-"+currentFocusX+"-"+currentFocusY).style('stroke', 'none');
+  d3.select("#block-"+quanColumnX+"-"+quanColumnY).style('stroke', 'orange').style('stroke-width', 2);
+  currentFocusX = quanColumnX;
+  currentFocusY = quanColumnY;
+
+  var xName = rawColumns[categoryOfColumns.quantitative[quanColumnX]];
+  var yName = rawColumns[categoryOfColumns.quantitative[quanColumnY]];
+  var columnX = rawColumns.indexOf(xName),
+      columnY = rawColumns.indexOf(yName);
   // var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
   var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
 
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
-      width = 400 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom;
+      width = 600 - margin.left - margin.right,
+      height = 600 - margin.top - margin.bottom;
 
   var x = d3.scaleLinear().range([0, width])
             .domain(d3.extent(rawData, function(d) { return d[Object.keys(d)[columnX]]; })),
@@ -300,14 +318,14 @@ function drawScatterPlot(columnX, columnY) {
   initDrawScatterPlot = false;
 
   var title = d3.select('#diagramScatterPlotName')
-                .text('Correlation between ' + xName + ' and ' + yName)
+                .text('Correlation between ' + xName + '(x) and ' + yName + '(y)')
 
   var svg = d3.select("#diagramScatterPlot").append("svg")
               .attr("id", "diagramScatterPlotSvg")
               .attr("width", width + margin.left + margin.right)
               .attr("height", height + margin.top + margin.bottom)
-              .style("background-color", "#bbb")
-              .style("opacity", 0.5)
+              .style("background-color", "#f2f2f2")
+              .style("opacity", 1)
               .append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   // console.log(x);
 
@@ -331,6 +349,7 @@ function drawScatterPlot(columnX, columnY) {
       .attr("class", "point")
       .attr("cx", function(d) { return x(d[Object.keys(d)[columnX]]); })
       .attr("cy", function(d) { return y(d[Object.keys(d)[columnY]]); })
+      .style("opacity", 0.1)
       .attr("r", 3);;
 
   var tooltip = d3.select("body").append("div").attr("class", "toolTip");
