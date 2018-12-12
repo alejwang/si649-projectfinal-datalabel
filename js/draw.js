@@ -305,28 +305,50 @@ function drawDiagramFunctionalDep(init = false) {
                 tooltipFunctionalDep.style("display", "none");
             });
 
-    const node = svg.append("g")
-        .attr("stroke", "#fff")
-        .selectAll("circle")
-        .data(nodes)
-        .enter().append("circle")
+    var node = svg.selectAll(".node")
+                .data(nodes)
+                .enter().append("g")
+                .attr("class", "node");
+                //.call(drag(simulation));
+
+    node.append("circle")
         .attr("r", 8)
-        //.attr("fill", color(d => scale(d.group)))
         .call(drag(simulation));
-  
-    node.append("title")
-        .text(d => d.id);
+
+    node.append("text")
+        .attr("dx", 12)
+        .attr("dy", ".35em")
+        .text(function(d) { return d.id });
+
+    // const node = svg.append("g")
+    //     .attr("stroke", "#fff")
+    //     .selectAll("circle")
+    //     .data(nodes)
+    //     .enter().append("circle")
+    //     .attr("r", 8)
+    //     //.attr("fill", color(d => scale(d.group)))
+    //     .call(drag(simulation));
+            
+    // // node.append("title")
+    // //     .text(d => d.id);
+    
+    // const text = svg.append("g")
+    //     .selectAll("text")
+    //     .data(nodes)
+    //     .enter().append("text")
+    //     .attr("dx", 12)
+    //     .attr("dy", ".35em")
+    //     .text(function(d) { return d.id; });
 
         function ticked() {
-            link
-                .attr("x1", d => d.source.x)
+            link.attr("x1", d => d.source.x)
                 .attr("y1", d => d.source.y)
                 .attr("x2", d => d.target.x)
                 .attr("y2", d => d.target.y);
             
-            node
-                .attr("cx", d => d.x)
-                .attr("cy", d => d.y);
+            // node.attr("cx", d => d.x)
+            //     .attr("cy", d => d.y);
+            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
           }
   }
 
