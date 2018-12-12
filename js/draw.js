@@ -42,8 +42,8 @@ function loadAnalysisResult() {
 function init(analysisResult){
   categoryOfColumns = {
     'nominal': [0, 1, 2, 3, 6, 14, 25],
-    'ordinal': [4, 5],
-    'quantitative': [7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    'ordinal': [4, 5, 12],
+    'quantitative': [7, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   } // manually
 
   var div1 = d3.select("#nominal");
@@ -133,18 +133,19 @@ function drawDiagramCorrelations(init = false) {
   var correlationMatrix = [],
       nodes = [],
       nodeNameToId = {},
-      n = analysisResult.num_cols;
+      n = categoryOfColumns.quantitative.length;
 
 
   // Compute index per node
-  analysisResult.colnames.forEach(function(v, i) {
+  categoryOfColumns.quantitative.forEach(function(v, i) {
     nodes.push({
-      'name' : v,
-      'index' : i,
+      'name' : rawColumns[v],
+      'index' : v,
       'count' : 0
     });
-    nodeNameToId[v] = i;
+    nodeNameToId[rawColumns[v]] = i;
   });
+  // console.log(nodes);
 
   nodes.forEach(function(node, i) {
     correlationMatrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0}; });
@@ -152,25 +153,31 @@ function drawDiagramCorrelations(init = false) {
   });
 
   // Convert links to correlationMatrix; count character occurrences.
-  analysisResult.correlations.forEach(function(v) {
-    var sourceName = v.split(' --- ')[0],
-        targetName = v.split(' --- ')[1].split('=>')[0];
-    var source = nodeNameToId[sourceName],
-        target = nodeNameToId[targetName],
-        value = parseFloat(v.split('=>')[1]);
-    // console.log(value);
-    // correlationMatrix[source][target].z += link.value;
-    // correlationMatrix[target][source].z += link.value;
-    // correlationMatrix[source][source].z += link.value;
-    // correlationMatrix[target][target].z += link.value;
-    // nodes[source].count += link.value;
-    // nodes[target].count += link.value;
-    correlationMatrix[source][target].z = value;
-    correlationMatrix[target][source].z = value;
-    // nodes[source].count += 1;
-    // nodes[target].count += 1;
+  categoryOfColumns.quantitative.forEach(function(i) {
+    categoryOfColumns.quantitative.forEach(function(j) {
+      var sourceName = rawColumns[i]
+          targetName = rawColumns[j]
+      var value = pearsonCorrelation(i, j),
+          source = nodeNameToId[sourceName],
+          target = nodeNameToId[targetName];
+      correlationMatrix[source][target].z = value;
+      correlationMatrix[target][source].z = value;
+    });
   });
-  // console.log(correlationMatrix);
+  console.log(correlationMatrix);
+
+
+  // Convert links to correlationMatrix; count character occurrences.
+  // analysisResult.correlations.forEach(function(v) {
+  //   var sourceName = v.split(' --- ')[0],
+  //       targetName = v.split(' --- ')[1].split('=>')[0];
+  //   var source = nodeNameToId[sourceName],
+  //       target = nodeNameToId[targetName],
+  //       value = parseFloat(v.split('=>')[1]);
+  //   correlationMatrix[source][target].z = value;
+  //   correlationMatrix[target][source].z = value;
+  // }); Old version
+
 
   var svg = d3.select("#diagramCorrelations").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -200,7 +207,7 @@ function drawDiagramCorrelations(init = false) {
       .attr("class", "background")
       .attr("width", width)
       .attr("height", height)
-      .attr("fill", "#eee");
+      .attr("fill", "#f9f9f9");
 
   var row = svg.selectAll(".row")
       .data(correlationMatrix)
@@ -211,7 +218,7 @@ function drawDiagramCorrelations(init = false) {
 
   row.append("line")
       .attr("x2", width)
-      .attr("stroke", "white");
+      .attr("stroke", "#fff");
 
   row.append("text")
       .attr("x", -6)
@@ -240,14 +247,15 @@ function drawDiagramCorrelations(init = false) {
       .text(function(d, i) { return nodes[i].name; });
 
   function drawRow(row) {
+    console.log('row', row);
     var cell = d3.select(this).selectAll(".cell")
         .data(row.filter(function(d) { return true; }))
         .enter().append("rect")
         .attr("class", "cell")
-        .attr("x", function(d) { return x(nodes[d.x].name); })
+        .attr("x", function(d) { console.log(x, d.x, nodes[d.x]); return x(nodes[d.x].name); })
         .attr("width", x.bandwidth())
         .attr("height", x.bandwidth())
-        .style("fill-opacity", function(d) { return (d.z * 2); })
+        .style("fill-opacity", function(d) { return (d.z); })
         .style("fill", function(d) { return "#000" })
         .on("click", function(d) { drawScatterPlot(d.x, d.y); });
         // .on("mouseover", mouseover)
@@ -260,8 +268,8 @@ function drawDiagramCorrelations(init = false) {
 
 var initDrawScatterPlot = true;
 function drawScatterPlot(columnX, columnY) {
-  var xName = rawColumns[columnX];
-  var yName = rawColumns[columnY];
+  var xName = rawColumns[categoryOfColumns.quantitative[columnX]];
+  var yName = rawColumns[categoryOfColumns.quantitative[columnY]];
   // var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
   var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
 
@@ -338,6 +346,9 @@ function drawScatterPlot(columnX, columnY) {
 
 function pearsonCorrelation(columnX, columnY) {
 
+  if (columnY == columnX) {
+    return 1;
+  }
   var xName = rawColumns[columnX];
   var yName = rawColumns[columnY];
 
@@ -346,7 +357,7 @@ function pearsonCorrelation(columnX, columnY) {
     prefs[0].push(parseFloat(v[xName]));
     prefs[1].push(parseFloat(v[yName]));
   });
-  console.log(prefs);
+  // console.log(prefs);
 
   var si = [];
   var p1 = 0,
