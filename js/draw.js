@@ -32,20 +32,20 @@ function loadAnalysisResult() {
   d3.json("data/"+jsonFileName).then(function(d) {
     analysisResult = d;
     // console.log(analysisResult);
-    init(analysisResult);
+    init();
     drawAll(true);
   });
 }
 
 ///////////////// by Meng /////////////////
 
-function init(analysisResult){
+function init(){
   categoryOfColumns = {
     'nominal': [0, 1, 2, 3, 6, 14, 25],
     'ordinal': [4, 5, 12],
     'quantitative': [7, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   } // manually
-
+  console.log('init');
   var div1 = d3.select("#nominal");
   var lst1 = categoryOfColumns.nominal;
   lst1.forEach(function(v){
@@ -98,8 +98,6 @@ function init(analysisResult){
     .attr("class","column_checkbox")
     .attr("checked","checked")
 
-
-
     var lst_of_values = [];
     rawData.forEach(function(v) {
       lst_of_values.push(v[colname]);
@@ -108,10 +106,6 @@ function init(analysisResult){
     var max=Math.max.apply(null,lst_of_values);
     var min=Math.min.apply(null,lst_of_values);
     console.log(max,min);
-
-
-
-
 
   });
 
@@ -127,24 +121,7 @@ function init(analysisResult){
     })
   }); // rebuild by z @ 12.12
 
-
-// should calculate the min and max
-  };
-
-  var columnNamesToggle = ['#nominal_change', '#ordinal_change', '#quantitative_change'];
-  columnNamesToggle.forEach(function(v) {
-    $(v).click(function() {
-      if ($(v).innerHTML=="+") {
-        $(v).innerHTML="-";
-      } else {
-        $(v).innerHTML="+";
-      }
-      $(v.slice(0, v.length - 7)).toggle();
-    })
-  }); // rebuild by z @ 12.12
-
-
-
+}
 
 
 ///////////////// by Zhen /////////////////
@@ -152,6 +129,7 @@ function init(analysisResult){
 function drawAll(initzer = false) {
   drawDiagramCorrelations(initzer);
   drawDiagramFunctionalDep(initzer);
+  console.log('drawAll');
 }
 
 function drawDiagramCorrelations(init = false) {
