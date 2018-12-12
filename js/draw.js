@@ -3,6 +3,11 @@ var rawData = [];
 var analysisResult = {};
 var rawColumnFiltered = [];
 var rawColumns = [];
+var categoryOfColumns = {
+  'nomimal': [],
+  'ordinal': [],
+  'quantitative': []
+}
 
 var csvFileName = "RecidivismData_Original.csv";
 var jsonFileName = "sample_structure.json";
@@ -35,79 +40,59 @@ function loadAnalysisResult() {
 ///////////////// by Meng /////////////////
 
 function init(analysisResult){
+  categoryOfColumns = {
+    'nominal': [0, 1, 2, 3, 6, 14, 25],
+    'ordinal': [4, 5],
+    'quantitative': [7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  } // manually
+
   var div1 = d3.select("#nominal");
-  var lst1 = analysisResult.nominal;
-  //console.log(lst);
+  var lst1 = categoryOfColumns.nominal;
   lst1.forEach(function(v){
     //console.log(v);
-    var colname = v;
+    var colname = rawColumns[v];
     var colname_div=div1.append("div")
     colname_div.append("label")
-    .attr("for",v)
-    .text(v)
+    .attr("for",colname)
+    .text(colname)
     .attr("class","column_name")
 
     colname_div.append("input")
-    .attr("id",v)
+    .attr("id",colname)
     .attr("type","checkbox")
     .attr("class","column_checkbox")
     .attr("checked","checked")
-
-
-    var lst_of_values = [];
-    rawData.forEach(function(v) {
-      lst_of_values.push(v[colname]);
-    });
-    //console.log(lst_of_values);
-    dict_of_value = {};
-
-
-
   });
 
   var div2 = d3.select("#ordinal");
-  var lst2 = analysisResult.ordinal;
-  //console.log(lst);
+  var lst2 = categoryOfColumns.ordinal;
   lst2.forEach(function(v){
-    //console.log(v);
-    var colname = v;
+    var colname = rawColumns[v];
     var colname_div=div2.append("div")
     colname_div.append("label")
-    .attr("for",v)
-    .text(v)
+    .attr("for",colname)
+    .text(colname)
     .attr("class","column_name")
 
     colname_div.append("input")
-    .attr("id",v)
+    .attr("id",colname)
     .attr("type","checkbox")
     .attr("class","column_checkbox")
     .attr("checked","checked")
-
-
-    var lst_of_values = [];
-    rawData.forEach(function(v) {
-      lst_of_values.push(v[colname]);
-    });
-    //console.log(lst_of_values);
-    dict_of_value = {};
-
-
   });
 
   var div3 = d3.select("#quantitative");
-  var lst3 = analysisResult.quantitative;
-  //console.log(lst);
+  var lst3 = categoryOfColumns.quantitative;
   lst3.forEach(function(v){
-    //console.log(v);
-    var colname = v;
+    var colname = rawColumns[v];
     var colname_div=div3.append("div")
     colname_div.append("label")
-    .attr("for",v)
-    .text(v)
+    .attr("for",colname)
+    .text(colname)
     .attr("class","column_name")
 
     colname_div.append("input")
-    .attr("id",v)
+    .attr("id",colname)
     .attr("type","checkbox")
     .attr("class","column_checkbox")
     .attr("checked","checked")
@@ -275,8 +260,8 @@ function drawDiagramCorrelations(init = false) {
 
 var initDrawScatterPlot = true;
 function drawScatterPlot(columnX, columnY) {
-  var xName = Object.keys(rawData[1])[columnX];
-  var yName = Object.keys(rawData[1])[columnY];
+  var xName = rawColumns[columnX];
+  var yName = rawColumns[columnY];
   // var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
   var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
 
@@ -351,10 +336,21 @@ function drawScatterPlot(columnX, columnY) {
 }
 
 
-function pearsonCorrelation(columnX, columnY, p1, p2) {
+function pearsonCorrelation(columnX, columnY) {
 
-  prefs = []
+  var xName = rawColumns[columnX];
+  var yName = rawColumns[columnY];
+
+  var prefs = [[], []];
+  rawData.forEach(function(v) {
+    prefs[0].push(parseFloat(v[xName]));
+    prefs[1].push(parseFloat(v[yName]));
+  });
+  console.log(prefs);
+
   var si = [];
+  var p1 = 0,
+      p2 = 1;
 
   for (var key in prefs[p1]) {
     if (prefs[p2][key]) si.push(key);
