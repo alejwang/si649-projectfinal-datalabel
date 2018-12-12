@@ -1,3 +1,7 @@
+var uniqueColumns = {};
+var color = d3v3.scale.category20();
+var column = 1;
+
 $(document).ready(function () {
     loadJson("mups.json");
 });
@@ -66,7 +70,17 @@ console.log(data);
 
 	  nodeEnter.append("circle")
 		  .attr("r", 1e-6)
-		  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+		  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .style("stroke", function(d) {
+        val = d.node.split(":");
+        if(val[0] in uniqueColumns){
+          return uniqueColumns[val[0]];
+        } else {
+          uniqueColumns[val[0]] = color(column);
+          column++;
+          return uniqueColumns[val[0]]
+        }
+      });
 
 	  nodeEnter.append("text")
 		  .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
