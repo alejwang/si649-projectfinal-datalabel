@@ -4,7 +4,7 @@
 
 
 h3{
-    color:#404040;
+    color:black;
     font-size:26px;
     /* text-align: center; */
     font-weight: bold;
@@ -13,10 +13,11 @@ h3{
 
 h4{
 
-    color:#DDDDDD;
+    color:black;
     font-size: 20px;
-    text-align: center;
+    text-align: left;
 }
+
 
 .note {
     font-size: 12px;
@@ -166,7 +167,7 @@ p{
 
 a{
   font-size:16px;
-  text-decoration: underline;
+  text-decoration: none;
   color: black;
   line-height: 32px;
 }
@@ -195,26 +196,79 @@ a{
 
 
 .left_column{
-  height:100%;
+  max-height:100%;
   width: 20%;
   margin-left: 5%;
-  padding:50px 20px;
-  display:inline;
-  float: left;
-  position:fixed;
-  overflow: scroll;
+  top:0;
+  padding:50px 0px;
+  position: fixed;
+}
+
+.left_column:hover{
+  overflow-y: auto;
 }
 
 .right_column{
-  width: 65%;
+  width: 70%;
   margin-left: 25%;
   margin-right: 5%;
   padding:20px;
-  display: inline;
-  float: left;
+
 }
 
 .frame{
   width:100%;
   border: black solid 3px;
+}
+
+.column_filter{
+  border: 2px black solid;
+  margin-right: 20%;
+  padding: 10px;
+}
+
+.filtertitle{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.groupname{
+  display: inline;
+  font-size: 18px;
+  text-align: left;
+  font-weight: bold;
+  line-height: 36px;
+}
+
+.filename{
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.column_name{
+  font-size: 14px;
+  text-align: left;
+  line-height: 24px;
+}
+
+.column_checkbox{
+  float:right;
+}
+
+.tab{
+  color: black;
+  text-decoration: underline;
+}
+
+.change{
+  float: right;
+  text-decoration: none;
+  color:black;
+  font-size: 30px;
+}
+
+.change:focus, .change:hover{
+  text-decoration: none;
+  color:black;
 }

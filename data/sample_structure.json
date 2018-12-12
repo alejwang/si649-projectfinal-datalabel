@@ -174,5 +174,23 @@
     "Fel",
     "B",
     "Violent"
+  ],
+  "nominal": [
+    "Name",
+    "FirstName",
+    "LastName",
+    "Sex",
+    "Race",
+    "c_charge_degree",
+    "marriage_status"
+  ],
+  "ordinal": [
+    "Age",
+    "DateOfBirth"
+
+  ],
+  "quantitative": [
+    "recidivism_score"
   ]
+
 }

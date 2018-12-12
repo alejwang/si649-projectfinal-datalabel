@@ -16,9 +16,143 @@ function loadRawData(fileName) {
 function loadAnalysisResult(fileName) {
   d3.json("data/"+fileName, function(d) {
     analysisResult = d;
+    init(analysisResult);
     drawAll(true);
+
   });
 }
+
+function init(analysisResult){
+  //console.log(rawData[0]);
+
+  // analysisResult = d;
+  var div1 = d3.select("#nominal");
+  var lst1 = analysisResult.nominal;
+  //console.log(lst);
+  lst1.forEach(function(v){
+    //console.log(v);
+    var colname = v;
+    var colname_div=div1.append("div")
+    colname_div.append("label")
+    .attr("for",v)
+    .text(v)
+    .attr("class","column_name")
+
+    colname_div.append("input")
+    .attr("id",v)
+    .attr("type","checkbox")
+    .attr("class","column_checkbox")
+    .attr("checked","checked")
+
+
+    var lst_of_values = [];
+    rawData.forEach(function(v) {
+      lst_of_values.push(v[colname]);
+    });
+    //console.log(lst_of_values);
+    dict_of_value = {};
+
+
+
+  });
+
+  var div2 = d3.select("#ordinal");
+  var lst2 = analysisResult.ordinal;
+  //console.log(lst);
+  lst2.forEach(function(v){
+    //console.log(v);
+    var colname = v;
+    var colname_div=div2.append("div")
+    colname_div.append("label")
+    .attr("for",v)
+    .text(v)
+    .attr("class","column_name")
+
+    colname_div.append("input")
+    .attr("id",v)
+    .attr("type","checkbox")
+    .attr("class","column_checkbox")
+    .attr("checked","checked")
+
+
+    var lst_of_values = [];
+    rawData.forEach(function(v) {
+      lst_of_values.push(v[colname]);
+    });
+    //console.log(lst_of_values);
+    dict_of_value = {};
+
+
+
+  });
+
+  var div3 = d3.select("#quantitative");
+  var lst3 = analysisResult.quantitative;
+  //console.log(lst);
+  lst3.forEach(function(v){
+    //console.log(v);
+    var colname = v;
+    var colname_div=div3.append("div")
+    colname_div.append("label")
+    .attr("for",v)
+    .text(v)
+    .attr("class","column_name")
+
+    colname_div.append("input")
+    .attr("id",v)
+    .attr("type","checkbox")
+    .attr("class","column_checkbox")
+    .attr("checked","checked")
+
+
+    var lst_of_values = [];
+    rawData.forEach(function(v) {
+      lst_of_values.push(v[colname]);
+    });
+    //console.log(lst_of_values);
+    dict_of_value = {};
+
+
+
+  });
+}
+
+
+function show1(){
+				document.getElementById("nominal").style.display="block";
+				document.getElementById("nominal_change").innerHTML="-";
+				document.getElementById("nominal_change").href="javascript:hide1()";
+			}
+
+function hide1(){
+				document.getElementById("nominal").style.display="none";
+				document.getElementById("nominal_change").innerHTML="+";
+				document.getElementById("nominal_change").href="javascript:show1()";
+			}
+
+function show2(){
+				document.getElementById("ordinal").style.display="block";
+				document.getElementById("ordinal_change").innerHTML="-";
+				document.getElementById("ordinal_change").href="javascript:hide2()";
+			}
+
+function hide2(){
+				document.getElementById("ordinal").style.display="none";
+				document.getElementById("ordinal_change").innerHTML="+";
+				document.getElementById("ordinal_change").href="javascript:show2()";
+			}
+
+function show3(){
+				document.getElementById("quantitative").style.display="block";
+				document.getElementById("quantitative_change").innerHTML="-";
+				document.getElementById("quantitative_change").href="javascript:hide3()";
+			}
+
+function hide3(){
+				document.getElementById("quantitative").style.display="none";
+				document.getElementById("quantitative_change").innerHTML="+";
+				document.getElementById("quantitative_change").href="javascript:show3()";
+			}
 
 function drawAll(init = false) {
   drawDiagramCorrelations(init);
