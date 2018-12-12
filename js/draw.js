@@ -1,6 +1,8 @@
 var rawDataFiltered = []; // the variable that holds the data from csv file
 var rawData = [];
 var analysisResult = {};
+var rawColumnFiltered = [];
+var rawColumns = [];
 
 var csvFileName = "RecidivismData_Original.csv";
 var jsonFileName = "sample_structure.json";
@@ -12,7 +14,11 @@ $(document).ready(function() {
 function loadRawData() {
   d3.csv("data/" + csvFileName).then(function (d) {
     rawData = d;
-    // console.log(rawData);
+    rawDataFiltered = d;
+    rawColumns = Object.keys(rawData[1]);
+    rawColumnFiltered = Object.keys(rawData[1]);
+    console.log('rawData', rawData);
+    console.log('rawColumns', rawColumns);
     loadAnalysisResult();
   });
 }
@@ -86,7 +92,6 @@ function init(analysisResult){
     dict_of_value = {};
 
 
-
   });
 
   var div3 = d3.select("#quantitative");
@@ -107,62 +112,29 @@ function init(analysisResult){
     .attr("class","column_checkbox")
     .attr("checked","checked")
 
-
-    var lst_of_values = [];
-    rawData.forEach(function(v) {
-      lst_of_values.push(v[colname]);
-    });
-    //console.log(lst_of_values);
-    dict_of_value = {};
-
-
-
+// should calculate the min and max
   });
+
+  var columnNamesToggle = ['#nominal_change', '#ordinal_change', '#quantitative_change'];
+  columnNamesToggle.forEach(function(v) {
+    $(v).click(function() {
+      if ($(v).innerHTML=="+") {
+        $(v).innerHTML="-";
+      } else {
+        $(v).innerHTML="+";
+      }
+      $(v.slice(0, v.length - 7)).toggle();
+    })
+  }); // rebuild by z @ 12.12
+
+
 }
-
-
-function show1(){
-				document.getElementById("nominal").style.display="block";
-				document.getElementById("nominal_change").innerHTML="-";
-				document.getElementById("nominal_change").href="javascript:hide1()";
-			}
-
-function hide1(){
-				document.getElementById("nominal").style.display="none";
-				document.getElementById("nominal_change").innerHTML="+";
-				document.getElementById("nominal_change").href="javascript:show1()";
-			}
-
-function show2(){
-				document.getElementById("ordinal").style.display="block";
-				document.getElementById("ordinal_change").innerHTML="-";
-				document.getElementById("ordinal_change").href="javascript:hide2()";
-			}
-
-function hide2(){
-				document.getElementById("ordinal").style.display="none";
-				document.getElementById("ordinal_change").innerHTML="+";
-				document.getElementById("ordinal_change").href="javascript:show2()";
-			}
-
-function show3(){
-				document.getElementById("quantitative").style.display="block";
-				document.getElementById("quantitative_change").innerHTML="-";
-				document.getElementById("quantitative_change").href="javascript:hide3()";
-			}
-
-function hide3(){
-				document.getElementById("quantitative").style.display="none";
-				document.getElementById("quantitative_change").innerHTML="+";
-				document.getElementById("quantitative_change").href="javascript:show3()";
-			}
-
 
 ///////////////// by Zhen /////////////////
 
-function drawAll(init = false) {
-  drawDiagramCorrelations(init);
-  drawDiagramFunctionalDep(init);
+function drawAll(initzer = false) {
+  drawDiagramCorrelations(initzer);
+  drawDiagramFunctionalDep(initzer);
 }
 
 function drawDiagramCorrelations(init = false) {
@@ -323,6 +295,10 @@ function drawScatterPlot(columnX, columnY) {
     $("#diagramScatterPlot").empty();
   }
   initDrawScatterPlot = false;
+
+  var title = d3.select('#diagramScatterPlotName')
+                .text('Correlation between ' + xName + ' and ' + yName)
+
   var svg = d3.select("#diagramScatterPlot").append("svg")
               .attr("id", "diagramScatterPlotSvg")
               .attr("width", width + margin.left + margin.right)
@@ -374,6 +350,49 @@ function drawScatterPlot(columnX, columnY) {
 
 }
 
+
+function pearsonCorrelation(columnX, columnY, p1, p2) {
+
+  prefs = []
+  var si = [];
+
+  for (var key in prefs[p1]) {
+    if (prefs[p2][key]) si.push(key);
+  }
+
+  var n = si.length;
+
+  if (n == 0) return 0;
+
+  var sum1 = 0;
+  for (var i = 0; i < si.length; i++) sum1 += prefs[p1][si[i]];
+
+  var sum2 = 0;
+  for (var i = 0; i < si.length; i++) sum2 += prefs[p2][si[i]];
+
+  var sum1Sq = 0;
+  for (var i = 0; i < si.length; i++) {
+    sum1Sq += Math.pow(prefs[p1][si[i]], 2);
+  }
+
+  var sum2Sq = 0;
+  for (var i = 0; i < si.length; i++) {
+    sum2Sq += Math.pow(prefs[p2][si[i]], 2);
+  }
+
+  var pSum = 0;
+  for (var i = 0; i < si.length; i++) {
+    pSum += prefs[p1][si[i]] * prefs[p2][si[i]];
+  }
+
+  var num = pSum - (sum1 * sum2 / n);
+  var den = Math.sqrt((sum1Sq - Math.pow(sum1, 2) / n) *
+      (sum2Sq - Math.pow(sum2, 2) / n));
+
+  if (den == 0) return 0;
+
+  return num / den;
+}
 
 ///////////////// by Huyen /////////////////
 

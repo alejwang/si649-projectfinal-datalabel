@@ -1,7 +1,9 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 
-
+* {
+  font-family: 'Montserrat', Helvetica;
+}
 
 h3{
     color:black;
@@ -217,8 +219,8 @@ a{
 }
 
 .frame{
-  margin: 0 auto;
-  text-align: center;
+  /* margin: 0 auto; */
+  /* text-align: center; */
   width:100%;
   border: black solid 3px;
 }
@@ -252,6 +254,7 @@ a{
   font-size: 14px;
   text-align: left;
   line-height: 24px;
+  font-weight: normal;
 }
 
 .column_checkbox{
