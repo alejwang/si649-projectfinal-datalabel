@@ -86,7 +86,10 @@ console.log(data);
 		  .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
 		  .attr("dy", ".35em")
 		  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-		  .text(function(d) { return d.node; })
+		  .text(function(d) {
+        val = d.node.split(":");
+        return val[0]+" --> "+val[1];
+      })
 		  .style("fill-opacity", 1e-6);
 
 	  // Transition nodes to their new position.
