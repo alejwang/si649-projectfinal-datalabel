@@ -156,6 +156,7 @@ function hide3(){
 
 function drawAll(init = false) {
   drawDiagramCorrelations(init);
+  drawDiagramFunctionalDep(init);
 }
 
 function drawDiagramCorrelations(init = false) {
@@ -361,3 +362,163 @@ function drawScatterPlot(columnX, columnY) {
               });
 
 }
+
+
+
+///Functional dependencies
+function drawDiagramFunctionalDep(init = false) {
+    //https://beta.observablehq.com/@mbostock/d3-force-directed-graph
+   
+    var margin = {top: 80, right: 0, bottom: 10, left: 80},
+        width = 950,
+        height = 600;
+  
+    var sourceNodes = [],
+        sourceLinks = [];
+
+    analysisResult.colnames.forEach(function(v, i) {
+      sourceNodes.push({
+        'id' : v,
+        'group' : i
+      });
+    });
+  
+    analysisResult.fds.forEach(function(v, i) {
+        var sourceName = v.split('=>')[0].split(/, /),
+            targetName = v.split('=>')[1];
+        var relatedNodes = sourceName.concat(targetName);
+        
+            sourceName.forEach(function(item){
+                sourceLinks.push({
+                    'source' : item,
+                    'target' : targetName,
+                    'group' : i
+                })
+            })
+    });
+
+    console.log(sourceLinks);
+    console.log(sourceNodes);
+    
+    const links = sourceLinks.map(d => Object.create(d));
+    const nodes = sourceNodes.map(d => Object.create(d));
+    const simulation = forceSimulation(nodes, links).on("tick", ticked);
+
+    var svg = d3.select("#visFunctionalDep").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("viewBox", [-(width - margin.left - margin.right) / 2, -(height - margin.top - margin.bottom) / 2, width, height])
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var tooltipFunctionalDep = d3.select("body").append("div").attr("class", "toolTip");
+  
+    const link = svg.append("g")
+        .attr("stroke", "#999")
+        .attr("stroke-opacity", 0.6)
+        .attr("stroke-width", 2)
+        .attr("class", "edge")
+        .selectAll("line")
+        .data(links)
+        .enter().append("line")
+        .attr("stroke", color(d => scale(d.group)));
+    
+    svg.selectAll(".edge")
+            .on("mousemove", function (d) {
+                var tooltipSt = "";
+                analysisResult.fds.forEach(function(v) {
+                    tooltipSt += "<b>" + v + "</b></br>"
+                });
+                tooltipFunctionalDep
+                    .style("left", d3.event.pageX + 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html(tooltipSt);
+            })
+            .on("mouseout", function (d) {
+                tooltipFunctionalDep.style("display", "none");
+            });
+
+    var node = svg.selectAll(".node")
+                .data(nodes)
+                .enter().append("g")
+                .attr("class", "node");
+                //.call(drag(simulation));
+
+    node.append("circle")
+        .attr("r", 8)
+        .call(drag(simulation));
+
+    node.append("text")
+        .attr("dx", 12)
+        .attr("dy", ".35em")
+        .text(function(d) { return d.id });
+
+    // const node = svg.append("g")
+    //     .attr("stroke", "#fff")
+    //     .selectAll("circle")
+    //     .data(nodes)
+    //     .enter().append("circle")
+    //     .attr("r", 8)
+    //     //.attr("fill", color(d => scale(d.group)))
+    //     .call(drag(simulation));
+            
+    // // node.append("title")
+    // //     .text(d => d.id);
+    
+    // const text = svg.append("g")
+    //     .selectAll("text")
+    //     .data(nodes)
+    //     .enter().append("text")
+    //     .attr("dx", 12)
+    //     .attr("dy", ".35em")
+    //     .text(function(d) { return d.id; });
+
+        function ticked() {
+            link.attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+            
+            // node.attr("cx", d => d.x)
+            //     .attr("cy", d => d.y);
+            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          }
+  }
+
+  function forceSimulation(nodes, links) {
+    return d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+        .force("charge", d3.forceManyBody().strength(-20))
+        .force("center", d3.forceCenter());
+  }
+
+  function drag(simulation){
+
+    function dragstarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+      
+      function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+      }
+      
+    //   function dragended(d) {
+    //     if (!d3.event.active) simulation.alphaTarget(0);
+    //     d.fx = null;
+    //     d.fy = null;
+    //   }
+      
+      return d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          //.on("end", dragended);
+  }
+
+  function color(d){
+    const scale = d3.scaleOrdinal(d3.schemeCategory10);
+    return d => scale(d.group);
+  }
