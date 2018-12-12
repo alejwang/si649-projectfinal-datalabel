@@ -277,16 +277,34 @@ function drawDiagramFunctionalDep(init = false) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    var tooltipFunctionalDep = d3.select("body").append("div").attr("class", "toolTip");
   
     const link = svg.append("g")
         .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6)
         .attr("stroke-width", 2)
+        .attr("class", "edge")
         .selectAll("line")
         .data(links)
         .enter().append("line")
         .attr("stroke", color(d => scale(d.group)));
-  
+    
+    svg.selectAll(".edge")
+            .on("mousemove", function (d) {
+                var tooltipSt = "";
+                analysisResult.fds.forEach(function(v) {
+                    tooltipSt += "<b>" + v + "</b></br>"
+                });
+                tooltipFunctionalDep
+                    .style("left", d3.event.pageX + 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html(tooltipSt);
+            })
+            .on("mouseout", function (d) {
+                tooltipFunctionalDep.style("display", "none");
+            });
+
     const node = svg.append("g")
         .attr("stroke", "#fff")
         .selectAll("circle")
