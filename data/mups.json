@@ -1,0 +1,384 @@
+[
+  {
+    "node": "mups",
+    "children": [
+      {
+        "node": "c_charge_degree:M",
+        "children": [
+          {
+            "node": "race:Caucasian",
+            "children": [
+              {
+                "node": "event:1.0"
+              },
+              {
+                "node": "two_year_recid:1.0"
+              },
+              {
+                "node": "is_recid:1.0"
+              }
+            ]
+          },
+          {
+            "node": "event:0.0",
+            "children": [
+              {
+                "node": "two_year_recid:1.0"
+              },
+              {
+                "node": "is_recid:1.0"
+              }
+            ]
+          },
+          {
+            "node": "race:Hispanic"
+          },
+          {
+            "node": "is_violent_recid:1.0"
+          },
+          {
+            "node": "race:African-American",
+            "children": [
+              {
+                "node": "two_year_recid:1.0"
+              },
+              {
+                "node": "event:1.0"
+              }
+            ]
+          },
+          {
+            "node": "marriagestatus:Married"
+          }
+        ]
+      },
+      {
+        "node": "race:Hispanic",
+        "children": [
+          {
+            "node": "is_recid:0.0"
+          },
+          {
+            "node": "c_charge_degree:F"
+          },
+          {
+            "node": "is_recid:1.0"
+          },
+          {
+            "node": "marriagestatus:Married"
+          },
+          {
+            "node": "marriagestatus:Single"
+          },
+          {
+            "node": "two_year_recid:0.0"
+          },
+          {
+            "node": "sex:Male",
+            "children": [
+              {
+                "node": "is_violent_recid:0.0"
+              }
+            ]
+          },
+          {
+            "node": "two_year_recid:1.0"
+          },
+          {
+            "node": "event:1.0"
+          },
+          {
+            "node": "is_violent_recid:1.0"
+          }
+        ]
+      },
+      {
+        "node": "marriagestatus:Married",
+        "children": [
+          {
+            "node": "race:African-American"
+          },
+          {
+            "node": "event:1.0"
+          },
+          {
+            "node": "two_year_recid:1.0"
+          },
+          {
+            "node": "two_year_recid:0.0",
+            "children": [
+              {
+                "node": "sex:Male"
+              }
+            ]
+          },
+          {
+            "node": "is_violent_recid:1.0"
+          },
+          {
+            "node": "is_recid:0.0",
+            "children": [
+              {
+                "node": "sex:Male"
+              }
+            ]
+          },
+          {
+            "node": "c_charge_degree:F"
+          },
+          {
+            "node": "is_recid:1.0"
+          }
+        ]
+      },
+      {
+        "node": "marriagestatus:Widowed"
+      },
+      {
+        "node": "race:Other"
+      },
+      {
+        "node": "race:African-American",
+        "children": [
+          {
+            "node": "is_violent_recid:1.0"
+          }
+        ]
+      },
+      {
+        "node": "marriagestatus:Unknown"
+      },
+      {
+        "node": "sex:Female",
+        "children": [
+          {
+            "node": "race:African-American",
+            "children": [
+              {
+                "node": "c_charge_degree:F"
+              },
+              {
+                "node": "is_recid:0.0"
+              },
+              {
+                "node": "two_year_recid:0.0"
+              }
+            ]
+          },
+          {
+            "node": "race:Hispanic"
+          },
+          {
+            "node": "c_charge_degree:M",
+            "children": [
+              {
+                "node": "race:African-American"
+              },
+              {
+                "node": "two_year_recid:0.0"
+              },
+              {
+                "node": "marriagestatus:Single"
+              },
+              {
+                "node": "event:0.0"
+              },
+              {
+                "node": "is_recid:0.0"
+              },
+              {
+                "node": "race:Caucasian"
+              }
+            ]
+          },
+          {
+            "node": "marriagestatus:Married"
+          },
+          {
+            "node": "is_recid:1.0"
+          },
+          {
+            "node": "c_charge_degree:F",
+            "children": [
+              {
+                "node": "is_recid:0.0"
+              },
+              {
+                "node": "two_year_recid:0.0"
+              }
+            ]
+          },
+          {
+            "node": "race:Caucasian",
+            "children": [
+              {
+                "node": "is_recid:0.0"
+              },
+              {
+                "node": "marriagestatus:Single"
+              },
+              {
+                "node": "c_charge_degree:F"
+              },
+              {
+                "node": "two_year_recid:0.0"
+              }
+            ]
+          },
+          {
+            "node": "two_year_recid:1.0"
+          },
+          {
+            "node": "event:0.0",
+            "children": [
+              {
+                "node": "race:Caucasian"
+              },
+              {
+                "node": "race:African-American"
+              }
+            ]
+          },
+          {
+            "node": "event:1.0"
+          },
+          {
+            "node": "is_violent_recid:1.0"
+          }
+        ]
+      },
+      {
+        "node": "marriagestatus:Separated"
+      },
+      {
+        "node": "marriagestatus:Significant_Other"
+      },
+      {
+        "node": "marriagestatus:Divorced"
+      },
+      {
+        "node": "is_recid:0.0",
+        "children": [
+          {
+            "node": "event:1.0"
+          }
+        ]
+      },
+      {
+        "node": "event:0.0",
+        "children": [
+          {
+            "node": "race:Hispanic"
+          },
+          {
+            "node": "race:Caucasian",
+            "children": [
+              {
+                "node": "two_year_recid:1.0"
+              },
+              {
+                "node": "is_recid:1.0"
+              }
+            ]
+          },
+          {
+            "node": "two_year_recid:1.0",
+            "children": [
+              {
+                "node": "is_violent_recid:0.0"
+              },
+              {
+                "node": "c_charge_degree:F"
+              }
+            ]
+          },
+          {
+            "node": "is_violent_recid:1.0"
+          },
+          {
+            "node": "c_charge_degree:F",
+            "children": [
+              {
+                "node": "is_recid:1.0"
+              }
+            ]
+          },
+          {
+            "node": "marriagestatus:Married",
+            "children": [
+              {
+                "node": "sex:Male"
+              }
+            ]
+          },
+          {
+            "node": "race:African-American",
+            "children": [
+              {
+                "node": "is_recid:1.0"
+              },
+              {
+                "node": "two_year_recid:1.0"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "node": "two_year_recid:0.0",
+        "children": [
+          {
+            "node": "event:1.0"
+          }
+        ]
+      },
+      {
+        "node": "is_violent_recid:1.0",
+        "children": [
+          {
+            "node": "two_year_recid:0.0"
+          },
+          {
+            "node": "is_recid:0.0"
+          },
+          {
+            "node": "c_charge_degree:F"
+          }
+        ]
+      },
+      {
+        "node": "race:Caucasian",
+        "children": [
+          {
+            "node": "is_violent_recid:1.0"
+          },
+          {
+            "node": "marriagestatus:Married"
+          }
+        ]
+      },
+      {
+        "node": "is_recid:1.0",
+        "children": [
+          {
+            "node": "two_year_recid:0.0"
+          }
+        ]
+      },
+      {
+        "node": "two_year_recid:1.0",
+        "children": [
+          {
+            "node": "is_recid:0.0"
+          }
+        ]
+      },
+      {
+        "node": "race:Asian"
+      },
+      {
+        "node": "race:Native_American"
+      }
+    ]
+  }
+]

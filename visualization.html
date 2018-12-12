@@ -5,11 +5,13 @@
     <title>Analyst</title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/mups.css"/>
 </head>
 <body>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
+  <script type="text/javascript" src="js/d3.v3.min.js"></script>
   <!-- <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script> -->
+  <script type="text/javascript" src="js/mups.js"></script>
   <script type="text/javascript" src="js/draw.js"></script>
   <script src="https://d3js.org/topojson.v2.min.js"></script>
   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -79,8 +81,9 @@
       <h1><strong>Uncovered Patterns</strong></h1>
       <p>Here you can see all the columns in the dataset, and you can select
         columns you need to see more analysis about them</p>
-      <div id="mups_vis" class="frame">
-        <div><img src="img/MUPS.png"></div>
+      <div class="frame">
+        <!--div><img src="img/MUPS.png"></div-->
+        <div id="mups_vis"></div>
       </div>
     </div>
     <div id="ars" class="vis">
