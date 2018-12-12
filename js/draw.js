@@ -108,7 +108,7 @@ function init(analysisResult){
     var max=Math.max.apply(null,lst_of_values);
     var min=Math.min.apply(null,lst_of_values);
     console.log(max,min);
-  
+
 
 
 
@@ -145,7 +145,7 @@ function init(analysisResult){
 
 
 
-}
+
 
 ///////////////// by Zhen /////////////////
 
