@@ -2,30 +2,33 @@ var rawDataFiltered = []; // the variable that holds the data from csv file
 var rawData = [];
 var analysisResult = {};
 
+var csvFileName = "RecidivismData_Original.csv";
+var jsonFileName = "sample_structure.json";
+
 $(document).ready(function() {
-  loadRawData("RecidivismData_Original.csv");
+  loadRawData();
 });
 
-function loadRawData(fileName) {
-  d3.csv("data/" + fileName, function (d) {
+function loadRawData() {
+  d3.csv("data/" + csvFileName).then(function (d) {
     rawData = d;
-    loadAnalysisResult("sample_structure.json");
+    // console.log(rawData);
+    loadAnalysisResult();
   });
 }
 
-function loadAnalysisResult(fileName) {
-  d3.json("data/"+fileName, function(d) {
+function loadAnalysisResult() {
+  d3.json("data/"+jsonFileName).then(function(d) {
     analysisResult = d;
+    // console.log(analysisResult);
     init(analysisResult);
     drawAll(true);
-
   });
 }
 
-function init(analysisResult){
-  //console.log(rawData[0]);
+///////////////// by Meng /////////////////
 
-  // analysisResult = d;
+function init(analysisResult){
   var div1 = d3.select("#nominal");
   var lst1 = analysisResult.nominal;
   //console.log(lst);
@@ -153,6 +156,9 @@ function hide3(){
 				document.getElementById("quantitative_change").innerHTML="+";
 				document.getElementById("quantitative_change").href="javascript:show3()";
 			}
+
+
+///////////////// by Zhen /////////////////
 
 function drawAll(init = false) {
   drawDiagramCorrelations(init);
@@ -294,8 +300,13 @@ function drawDiagramCorrelations(init = false) {
 
 }
 
+
 var initDrawScatterPlot = true;
 function drawScatterPlot(columnX, columnY) {
+  var xName = Object.keys(rawData[1])[columnX];
+  var yName = Object.keys(rawData[1])[columnY];
+  // var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
+  var data = rawData.map(function(d) { return {x: parseFloat(d[xName]), y: parseFloat(d[yName])}; });
 
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
       width = 400 - margin.left - margin.right,
@@ -364,15 +375,16 @@ function drawScatterPlot(columnX, columnY) {
 }
 
 
+///////////////// by Huyen /////////////////
 
 ///Functional dependencies
 function drawDiagramFunctionalDep(init = false) {
     //https://beta.observablehq.com/@mbostock/d3-force-directed-graph
-   
+
     var margin = {top: 80, right: 0, bottom: 10, left: 80},
         width = 950,
         height = 600;
-  
+
     var sourceNodes = [],
         sourceLinks = [];
 
@@ -382,12 +394,12 @@ function drawDiagramFunctionalDep(init = false) {
         'group' : i
       });
     });
-  
+
     analysisResult.fds.forEach(function(v, i) {
         var sourceName = v.split('=>')[0].split(/, /),
             targetName = v.split('=>')[1];
         var relatedNodes = sourceName.concat(targetName);
-        
+
             sourceName.forEach(function(item){
                 sourceLinks.push({
                     'source' : item,
@@ -399,7 +411,7 @@ function drawDiagramFunctionalDep(init = false) {
 
     console.log(sourceLinks);
     console.log(sourceNodes);
-    
+
     const links = sourceLinks.map(d => Object.create(d));
     const nodes = sourceNodes.map(d => Object.create(d));
     const simulation = forceSimulation(nodes, links).on("tick", ticked);
@@ -412,7 +424,7 @@ function drawDiagramFunctionalDep(init = false) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var tooltipFunctionalDep = d3.select("body").append("div").attr("class", "toolTip");
-  
+
     const link = svg.append("g")
         .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6)
@@ -422,7 +434,7 @@ function drawDiagramFunctionalDep(init = false) {
         .data(links)
         .enter().append("line")
         .attr("stroke", color(d => scale(d.group)));
-    
+
     svg.selectAll(".edge")
             .on("mousemove", function (d) {
                 var tooltipSt = "";
@@ -462,10 +474,10 @@ function drawDiagramFunctionalDep(init = false) {
     //     .attr("r", 8)
     //     //.attr("fill", color(d => scale(d.group)))
     //     .call(drag(simulation));
-            
+
     // // node.append("title")
     // //     .text(d => d.id);
-    
+
     // const text = svg.append("g")
     //     .selectAll("text")
     //     .data(nodes)
@@ -479,46 +491,46 @@ function drawDiagramFunctionalDep(init = false) {
                 .attr("y1", d => d.source.y)
                 .attr("x2", d => d.target.x)
                 .attr("y2", d => d.target.y);
-            
+
             // node.attr("cx", d => d.x)
             //     .attr("cy", d => d.y);
             node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
           }
   }
 
-  function forceSimulation(nodes, links) {
-    return d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(links).id(d => d.id).distance(150))
-        .force("charge", d3.forceManyBody().strength(-20))
-        .force("center", d3.forceCenter());
-  }
+function forceSimulation(nodes, links) {
+  return d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+      .force("charge", d3.forceManyBody().strength(-20))
+      .force("center", d3.forceCenter());
+}
 
-  function drag(simulation){
+function drag(simulation){
 
-    function dragstarted(d) {
-        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-      }
-      
-      function dragged(d) {
-        d.fx = d3.event.x;
-        d.fy = d3.event.y;
-      }
-      
-    //   function dragended(d) {
-    //     if (!d3.event.active) simulation.alphaTarget(0);
-    //     d.fx = null;
-    //     d.fy = null;
-    //   }
-      
-      return d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          //.on("end", dragended);
-  }
+  function dragstarted(d) {
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
 
-  function color(d){
-    const scale = d3.scaleOrdinal(d3.schemeCategory10);
-    return d => scale(d.group);
-  }
+    function dragged(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+  //   function dragended(d) {
+  //     if (!d3.event.active) simulation.alphaTarget(0);
+  //     d.fx = null;
+  //     d.fy = null;
+  //   }
+
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        //.on("end", dragended);
+}
+
+function color(d){
+  const scale = d3.scaleOrdinal(d3.schemeCategory10);
+  return d => scale(d.group);
+}

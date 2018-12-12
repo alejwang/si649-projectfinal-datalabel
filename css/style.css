@@ -70,7 +70,7 @@ img {
     margin: 0 auto;
     text-align: center;
     /* border: 1px solid grey; */
-    background: #EEE;
+    /* background: #EEE; */
 }
 
 #diagramCorrelations{
@@ -217,6 +217,8 @@ a{
 }
 
 .frame{
+  margin: 0 auto;
+  text-align: center;
   width:100%;
   border: black solid 3px;
 }
