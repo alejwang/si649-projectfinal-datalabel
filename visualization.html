@@ -20,24 +20,24 @@
   </script>
   <div class="left_column">
     <div class="column_filter" id="filters">
-        <div class="filtertitle">Dataset Filter</div>
+        <div class="filtertitle">Columns</div>
         <p class="filename">RecidivismData_Original.csv</p>
         <div id="nominal_group">
           <div class="groupname">Nominal</div>
-          <a href="javascript:hide1()" id="nominal_change" class="change">-</a>
+          <a id="nominal_change" class="change">-</a>
           <div id="nominal" style="display:block"></div>
         </div>
         <div id="ordinal_group">
           <div class="groupname">Ordinal</div>
-          <a href="javascript:hide2()" id="ordinal_change" class="change">-</a>
+          <a id="ordinal_change" class="change">-</a>
           <div id="ordinal" style="display:block"></div>
         </div>
         <div id="quantitative_group">
           <div class="groupname">Quantitative</div>
-          <a href="javascript:hide3()" id="quantitative_change" class="change">-</a>
+          <a id="quantitative_change" class="change">-</a>
           <div id="quantitative" style="display:block"></div>
         </div>
-        
+
     </div>
     <br>
     <div><a href="#overview" class="tab">Data Overview</a></div>
@@ -64,6 +64,7 @@
         columns you need to see more analysis about them</p>
       <div class="frame">
         <div id="diagramCorrelations" class='diagram'> </div>
+        <p id="diagramScatterPlotName"></p>
         <div id="diagramScatterPlot"> </div>
       </div>
     </div>
