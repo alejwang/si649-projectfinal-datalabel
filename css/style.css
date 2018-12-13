@@ -160,11 +160,14 @@ html {
 
 h1{
   font-size: 48px;
+  margin-bottom:10px;
 }
 
 p{
   font-size: 20px;
   line-height: 30px;
+  margin:auto;
+  margin-bottom:5px;
 }
 
 a{
@@ -281,3 +284,77 @@ label.column_name{
   text-decoration: none;
   color:black;
 }
+
+h2{
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.ov_label_title {
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.ov_row_head {
+  border-top: black solid 15px;
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 50px;
+  width:96%;
+  display:table;
+}
+
+.ov_row {
+  border-top: black solid 1px;
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 70px;
+  width:96%;
+  display:table;
+  cursor: pointer;
+}
+
+.ov_cell {
+  display:table-cell;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.attr {
+  width:20%;
+}
+
+.hg {
+  width:30%;
+}
+
+.max {
+  width:9%;
+}
+
+.min {
+  width:9%;
+}
+
+.mean {
+  width:9%;
+}
+
+.nul {
+  width:11%;
+}
+
+.uniq {
+  width:12%;
+}
+
+.ov_block_select {
+  background-color:#e5e5e5;
+  transition: all 0.5s ease;
+}
+
+.ov_block_select::after {
+  background-color:none;
+  transition: all 0.5s ease-in-out;
+}
+
