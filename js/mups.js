@@ -15,7 +15,7 @@ function loadJson(fileName){
 function drawTree(data){
 	var margin = {top: 20, right: 120, bottom: 20, left: 120},
 		width = 1200 - margin.right - margin.left,
-		height = 1000 - margin.top - margin.bottom;
+		height = 1200 - margin.top - margin.bottom;
 
   /*  var margin = {top: 80, right: 0, bottom: 10, left: 80},
         width = 600,
@@ -88,7 +88,11 @@ console.log(data);
 		  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
 		  .text(function(d) {
         val = d.node.split(":");
+        if(val[1]!=undefined){
         return val[0]+" --> "+val[1];
+      }else{
+        return val[0];
+      }
       })
 		  .style("fill-opacity", 1e-6);
 
@@ -99,7 +103,10 @@ console.log(data);
 
 	  nodeUpdate.select("circle")
 		  .attr("r", 10)
-		  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+		  .style("fill", function(d) {
+        val=d.node.split(":");
+        return d._children ? uniqueColumns[val[0]] : "#fff";
+      });
 
 	  nodeUpdate.select("text")
 		  .style("fill-opacity", 1);
