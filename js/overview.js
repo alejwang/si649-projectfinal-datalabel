@@ -1,9 +1,12 @@
  // the variable that holds the data from csv file
 var ovData = [];
-var cols = ["age", "decile_score", "priors_count", "c_days_from_compas", "v_decile_score", "Violence_score", "Recidivism_score"]
+var cols_num = [5, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+var cols = [];
+// var cols = ["age", "decile_score", "priors_count", "c_days_from_compas", "v_decile_score", "Violence_score", "Recidivism_score"];
 
 $(document).ready(function() {
   loadOVData("RecidivismData_Original.csv");
+
 });
 
 function loadOVData(fileName) {
@@ -11,6 +14,12 @@ function loadOVData(fileName) {
     ovData = d;
     //get all column names
     var colnames = d3.keys(ovData[0]);
+    colnames.forEach(function(v, i) {
+      if (cols_num.indexOf(i) >= 0) {
+        cols.push(v)
+      }
+    });
+    console.log(cols);
     cols.forEach(element => {
       drawRow(ovData, element);
       drawHistogram(ovData, element);
@@ -77,7 +86,7 @@ function drawHistogram(data, col) {
       d3.selectAll("."+ col +"rect").attr("opacity", "0.2");
 
       d3.select(this).attr("opacity", "1");
-      
+
       tooltip
         .style("left", d3.event.pageX - 50 + "px")
           .style("top", d3.event.pageY - 70 + "px")
@@ -99,7 +108,7 @@ function drawHistogram(data, col) {
         .attr("font-weight", "bold")
         .attr("text-anchor", "end")
         .text(col);
-  
+
   //y axis
   svg.append("g")
     .attr("transform", `translate(${margin.left},0)`)
