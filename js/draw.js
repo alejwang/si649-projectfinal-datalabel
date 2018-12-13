@@ -553,39 +553,39 @@ function drawDiagramFunctionalDep(init = false) {
           }
   }
 
-function forceSimulation(nodes, links) {
-  return d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(d => d.id).distance(150))
-      .force("charge", d3.forceManyBody().strength(-20))
-      .force("center", d3.forceCenter());
-}
+  function forceSimulation(nodes, links) {
+    return d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+        .force("charge", d3.forceManyBody().strength(-20))
+        .force("center", d3.forceCenter());
+  }
 
-function drag(simulation){
+  function drag(simulation){
 
-  function dragstarted(d) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
-    }
+    function dragstarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
 
-    function dragged(d) {
-      d.fx = d3.event.x;
-      d.fy = d3.event.y;
-    }
+      function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+      }
 
-  //   function dragended(d) {
-  //     if (!d3.event.active) simulation.alphaTarget(0);
-  //     d.fx = null;
-  //     d.fy = null;
-  //   }
+    //   function dragended(d) {
+    //     if (!d3.event.active) simulation.alphaTarget(0);
+    //     d.fx = null;
+    //     d.fy = null;
+    //   }
 
-    return d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        //.on("end", dragended);
-}
+      return d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          //.on("end", dragended);
+  }
 
-function color(d){
-  const scale = d3.scaleOrdinal(d3.schemeCategory10);
-  return d => scale(d.group);
-}
+  function color(d){
+    const scale = d3.scaleOrdinal(d3.schemeCategory10);
+    return d => scale(d.group);
+  }

@@ -102,12 +102,12 @@
   ],
   "colnames": [
     "name",
-    "Firstname",
-    "Lastname",
-    "Sex",
-    "Dateofbirth",
+    "firstname",
+    "lastname",
+    "sex",
+    "dateofbirth",
     "age",
-    "Race",
+    "race",
     "juv_fel_count",
     "decile_score",
     "juv_misd_count",
@@ -126,7 +126,7 @@
     "two_year_recid",
     "violence_score",
     "recidivism_score",
-    "Marriagestatus"
+    "marriagestatus"
   ],
   "ars": [
     "0.0=>0",
@@ -175,5 +175,4 @@
     "B",
     "Violent"
   ]
-
 }
